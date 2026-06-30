@@ -1,0 +1,53 @@
+name: producto-prod
+
+services:
+  mysql-producto:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PRODUCTO_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PRODUCTO_MYSQL_DATABASE}
+    ports:
+      - "3392:3306" # Tu máquina (cliente externo) → MySQL prod
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${PRODUCTO_MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - mysql_producto_data:/var/lib/mysql
+    networks:
+      - producto-int
+
+  producto:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql-producto:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+      PRODUCTO_DB_HOST: ${PRODUCTO_DB_HOST}
+      PRODUCTO_DB_PORT: ${PRODUCTO_DB_PORT}
+      PRODUCTO_DB_NAME: ${PRODUCTO_DB_NAME}
+      PRODUCTO_DB_USERNAME: ${PRODUCTO_DB_USERNAME}
+      PRODUCTO_DB_PASSWORD: ${PRODUCTO_DB_PASSWORD}
+    ports:
+      - "9092:9092"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - producto-int
+      - ms-net
+
+volumes:
+  mysql_producto_data:
+
+networks:
+  ms-net:
+    external: true
+    name: ms-net
+  producto-int:
+    name: producto-int

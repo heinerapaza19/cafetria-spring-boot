@@ -1,0 +1,38 @@
+# Java/Spring build output
+config-server/target/
+config-server/build/
+config-server/.mvn/wrapper/maven-wrapper.jar
+
+# Generated helper files
+config-server/HELP.md
+
+# IDE and editor files
+.vscode/
+config-server/.vscode/
+.idea/
+config-server/.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse / STS
+config-server/.apt_generated
+config-server/.classpath
+config-server/.factorypath
+config-server/.project
+config-server/.settings/
+config-server/.springBeans
+config-server/.sts4-cache
+
+# NetBeans
+config-server/nbproject/private/
+config-server/nbbuild/
+config-server/dist/
+config-server/nbdist/
+config-server/.nb-gradle/
+
+# Logs and environment files
+*.log
+#.env
+#.env.*
+#!.env.example

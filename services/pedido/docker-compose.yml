@@ -1,0 +1,53 @@
+name: pedido-prod
+
+version: "3.9"
+
+services:
+  mysql-pedido:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PEDIDO_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PEDIDO_MYSQL_DATABASE}
+    ports:
+      - "3394:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${PEDIDO_MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - mysql_pedido_data:/var/lib/mysql
+    networks:
+      - pedido-int
+
+  pedido:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql-pedido:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-prod}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL:-http://config-server:7071}
+      PEDIDO_DB_HOST: ${PEDIDO_DB_HOST}
+      PEDIDO_DB_PORT: ${PEDIDO_DB_PORT}
+      PEDIDO_DB_NAME: ${PEDIDO_DB_NAME}
+      PEDIDO_DB_USERNAME: ${PEDIDO_DB_USERNAME}
+      PEDIDO_DB_PASSWORD: ${PEDIDO_DB_PASSWORD}
+    ports:
+      - "9093:9093"
+    networks:
+      - pedido-int
+      - ms-net
+
+volumes:
+  mysql_pedido_data:
+
+networks:
+  ms-net:
+    external: true
+    name: ms-net
+  pedido-int:
+    name: pedido-int

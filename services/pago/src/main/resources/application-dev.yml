@@ -1,0 +1,17 @@
+server:
+  port: 6060
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3394/db_pago?useSSL=false&serverTimezone=America/Lima&allowPublicKeyRetrieval=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  flyway:
+    enabled: false

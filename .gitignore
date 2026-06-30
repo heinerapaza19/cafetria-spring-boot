@@ -1,0 +1,16 @@
+# logs
+**/logs/
+*.log
+*.log.gz
+
+# crash dumps
+hs_err_pid*
+
+# IDE
+.factorypath
+.classpath
+.project
+.settings/
+
+# build
+target/

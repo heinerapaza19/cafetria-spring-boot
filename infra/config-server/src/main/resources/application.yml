@@ -1,0 +1,15 @@
+server:
+  port: 7071
+spring:
+  application:
+    name: config-server
+  profiles: 
+    active: native 
+  cloud:
+    config:
+      server:
+        native: 
+          #search-locations: file:///C:/ms1/ProyectosMS2026/infra/config-repo 
+          #search-locations: file:/config-repo
+          search-locations: ${CONFIG_REPO_LOCATION:file:///D:/upeu/cafe-final/cafetria-spring-boot-2/infra/config-repo}
+

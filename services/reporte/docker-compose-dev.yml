@@ -1,0 +1,16 @@
+name: reportes-dev
+
+services:
+  mysql-reportes-dev:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_reportes
+    ports:
+      - "3395:3306"   # nuevo puerto libre para reportes
+    volumes:
+      - mysql_reportes_dev_data:/var/lib/mysql
+
+volumes:
+  mysql_reportes_dev_data:

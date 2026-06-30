@@ -1,0 +1,1 @@
+ALTER TABLE pedido ADD COLUMN estado VARCHAR(50);

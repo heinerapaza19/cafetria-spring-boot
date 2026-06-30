@@ -1,0 +1,55 @@
+name: auth-prod
+
+services:
+  mysql-auth:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${AUTH_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${AUTH_MYSQL_DATABASE}
+    ports:
+      - "3342:3306" # Tu máquina (cliente externo) → MySQL prod
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${AUTH_MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - mysql_auth_data:/var/lib/mysql
+    networks:
+      - auth-int
+
+  auth:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql-auth:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+      JWT_SECRET: ${JWT_SECRET}
+
+      AUTH_DB_HOST: ${AUTH_DB_HOST}
+      AUTH_DB_PORT: ${AUTH_DB_PORT}
+      AUTH_DB_NAME: ${AUTH_DB_NAME}
+      AUTH_DB_USERNAME: ${AUTH_DB_USERNAME}
+      AUTH_DB_PASSWORD: ${AUTH_DB_PASSWORD}
+    ports:
+      - "8042:8042"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - auth-int
+      - ms-net
+
+volumes:
+  mysql_auth_data:
+
+networks:
+  ms-net:
+    external: true
+    name: ms-net
+  auth-int:
+    name: auth-int

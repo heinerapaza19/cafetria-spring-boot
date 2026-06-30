@@ -1,0 +1,54 @@
+name: pago-prod
+
+services:
+  mysql-pago:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PAGO_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PAGO_MYSQL_DATABASE}
+    ports:
+      - "3395:3306"
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${PAGO_MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - mysql_pago_data:/var/lib/mysql
+    networks:
+      - pago-int
+
+  pago:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql-pago:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+      PAGO_DB_HOST: ${PAGO_DB_HOST}
+      PAGO_DB_PORT: ${PAGO_DB_PORT}
+      PAGO_DB_NAME: ${PAGO_DB_NAME}
+      PAGO_DB_USERNAME: ${PAGO_DB_USERNAME}
+      PAGO_DB_PASSWORD: ${PAGO_DB_PASSWORD}
+    ports:
+      - "6060:6060"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - pago-int
+      - ms-net
+
+volumes:
+  mysql_pago_data:
+
+networks:
+  ms-net:
+    external: true
+    name: ms-net
+
+  pago-int:
+    name: pago-int

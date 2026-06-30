@@ -1,0 +1,27 @@
+server:
+  port: 7081
+
+spring:
+  application:
+    name: registry-server
+  profiles:
+    active: dev
+
+  config:
+    #import: "optional:configserver:http://localhost:7071"
+    #import: "optional:configserver:http://config-server:7071"
+    #import: "optional:configserver:http://host.docker.internal:7071"
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:7071}"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    root: INFO

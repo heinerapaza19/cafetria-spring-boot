@@ -1,0 +1,9 @@
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db

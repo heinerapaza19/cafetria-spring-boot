@@ -1,0 +1,73 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+
+clients:
+  - url: http://loki:3100/loki/api/v1/push
+
+scrape_configs:
+  - job_name: gateway-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: gateway
+          service: gateway
+          __path__: /var/log/ms/gateway/*.log
+
+  - job_name: producto-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: producto
+          service: producto
+          __path__: /var/log/ms/producto/*.log
+
+  - job_name: categoria-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: catalogo
+          service: catalogo
+          __path__: /var/log/ms/categoria/*.log
+
+  - job_name: auth-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: auth
+          service: auth
+          __path__: /var/log/ms/auth/*.log
+
+  - job_name: pedido-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: pedido
+          service: pedido
+          __path__: /var/log/ms/pedido/*.log
+
+  - job_name: pago-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: pago
+          service: pago
+          __path__: /var/log/ms/pago/*.log
+
+  - job_name: reporte-logs
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: reporte
+          service: reporte
+          __path__: /var/log/ms/reporte/*.log

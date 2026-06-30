@@ -1,0 +1,82 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+
+        # AUTH
+        - id: auth-route
+          uri: lb://auth
+          predicates:
+            - Path=/auth/**
+
+        # CATEGORIA
+        - id: categoria-route
+          uri: lb://categoria
+          predicates:
+            - Path=/api/v1/categorias/**
+
+        - id: categoria-instancia
+          uri: lb://categoria
+          predicates:
+            - Path=/api/v1/categoria/instancia
+
+        - id: categoria-swagger
+          uri: lb://categoria
+          predicates:
+            - Path=/categoria/swagger-ui/**,/categoria/v3/api-docs/**
+
+        # PRODUCTO
+        - id: producto-route
+          uri: lb://producto
+          predicates:
+            - Path=/api/v1/productos/**
+
+        - id: producto-instancia
+          uri: lb://producto
+          predicates:
+            - Path=/api/v1/producto/instancia
+
+        - id: producto-swagger
+          uri: lb://producto
+          predicates:
+            - Path=/producto/swagger-ui/**,/producto/v3/api-docs/**
+
+        # PAGO
+        - id: pago-route
+          uri: lb://pago
+          predicates:
+            - Path=/api/v1/pagos/**
+
+        - id: pago-instancia
+          uri: lb://pago
+          predicates:
+            - Path=/api/v1/pago/instancia
+
+        - id: pago-swagger
+          uri: lb://pago
+          predicates:
+            - Path=/pago/swagger-ui/**,/pago/v3/api-docs/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7081/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,circuitbreakers,circuitbreakerevents
+
+  endpoint:
+    health:
+      show-details: always
+
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+
+jwt:
+  secret: 1s3alJJATsWK91vf5zrODYlQa+LauM/9udaLZlQhHlpu46g/KzmSS5c3CGy6xF9kzAqBhvjmKBuZO/pSL7tfOg==
+  issuer: auth

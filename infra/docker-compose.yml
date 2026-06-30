@@ -1,0 +1,57 @@
+name: infra-platform
+
+services:
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    container_name: config-server
+    restart: unless-stopped
+    ports:
+      - "7072:7071"
+    volumes:
+      - ./config-repo:/config-repo
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+      CONFIG_REPO_LOCATION: file:/config-repo
+    networks:
+      - ms-net
+
+  registry-server:
+    build:
+      context: ./registry-server
+      dockerfile: Dockerfile
+    container_name: registry-server
+    restart: unless-stopped
+    ports:
+      - "7082:7081"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      CONFIG_SERVER_URL: http://config-server:7071
+    depends_on:
+      - config-server
+    networks:
+      - ms-net
+
+  gateway:
+    build:
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    restart: unless-stopped
+    ports:
+      - "7092:7091"
+    volumes:
+      - ./gateway/logs:/app/logs
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      CONFIG_SERVER_URL: http://config-server:7071
+    depends_on:
+      - config-server
+      - registry-server
+    networks:
+      - ms-net
+
+networks:
+  ms-net:
+    name: ms-net

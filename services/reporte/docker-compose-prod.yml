@@ -1,0 +1,54 @@
+name: reportes-prod
+
+services:
+  mysql-reportes:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${REPORTES_MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${REPORTES_MYSQL_DATABASE}
+    ports:
+      - "3395:3306" # Host → MySQL reportes prod
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${REPORTES_MYSQL_ROOT_PASSWORD} || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    volumes:
+      - mysql_reportes_data:/var/lib/mysql
+    networks:
+      - reportes-int
+
+  reportes:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql-reportes:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      CONFIG_SERVER_URL: ${CONFIG_SERVER_URL}
+      REPORTES_DB_HOST: ${REPORTES_DB_HOST}
+      REPORTES_DB_PORT: ${REPORTES_DB_PORT}
+      REPORTES_DB_NAME: ${REPORTES_DB_NAME}
+      REPORTES_DB_USERNAME: ${REPORTES_DB_USERNAME}
+      REPORTES_DB_PASSWORD: ${REPORTES_DB_PASSWORD}
+    ports:
+      - "8097:8097"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - reportes-int
+      - ms-net
+
+volumes:
+  mysql_reportes_data:
+
+networks:
+  ms-net:
+    external: true
+    name: ms-net
+
+  reportes-int:
+    name: reportes-int

@@ -1,0 +1,18 @@
+name: pedido-dev
+
+version: "3.9"
+
+services:
+  mysql-pedido-dev:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_pedido
+    ports:
+      - "3393:3306"
+    volumes:
+      - mysql_pedido_dev_data:/var/lib/mysql
+
+volumes:
+  mysql_pedido_dev_data:

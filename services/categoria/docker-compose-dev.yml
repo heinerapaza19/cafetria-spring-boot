@@ -1,0 +1,16 @@
+name: catalogo-dev
+
+services:
+  mysql-catalogo-dev:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_catalogo
+    ports:
+      - "3381:3306" # Tu máquina (cliente externo) → MySQL dev	
+    volumes:
+      - mysql_catalogo_dev_data:/var/lib/mysql
+
+volumes:
+  mysql_catalogo_dev_data:
