@@ -1,16 +1,62 @@
-# logs
+# =========================
+# 🔥 LOGS
+# =========================
+logs/
 **/logs/
 *.log
 *.log.gz
 
-# crash dumps
+# =========================
+# 💥 CRASH / DEBUG
+# =========================
 hs_err_pid*
 
-# IDE
+# =========================
+# ☕ JAVA / SPRING BOOT
+# =========================
+target/
+**/target/
+
+# =========================
+# 🧠 IDEs
+# =========================
 .factorypath
 .classpath
 .project
 .settings/
+.idea/
+.vscode/
+*.iml
 
-# build
-target/
+# =========================
+# 🌐 FRONTEND (ANGULAR)
+# =========================
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.env
+frontend/.env.*
+
+# =========================
+# 🔐 KEYCLOAK (IMPORTANTE)
+# =========================
+keycloak/
+keycloak-26.6.3/
+
+# =========================
+# 🐳 DOCKER / SYSTEM
+# =========================
+*.pid
+*.tmp
+
+# =========================
+# 🪟 WINDOWS
+# =========================
+Thumbs.db
+Desktop.ini
+
+# =========================
+# 🔑 ENV GLOBAL
+# =========================
+.env
+.env.*
