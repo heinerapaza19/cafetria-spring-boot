@@ -1,0 +1,196 @@
+<app-header></app-header>
+
+<div class="page-wrapper">
+  <section class="page-banner">
+    <div class="banner-content">
+      <span class="label-tag">Mi compra</span>
+      <h1>MI CARRITO</h1>
+    </div>
+  </section>
+
+  @if (mensaje()) {
+    <div
+      class="alert-float"
+      [class.success]="mensajeTipo() === 'success'"
+      [class.error]="mensajeTipo() === 'error'"
+    >
+      <i [class]="mensajeTipo() === 'success' ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
+      {{ mensaje() }}
+    </div>
+  }
+
+  <section class="carrito-section">
+    <div class="container">
+      <!-- LOADING -->
+      @if (loading()) {
+        <div class="cafe-spinner">
+          <div class="spinner-border"></div>
+        </div>
+      }
+
+      <!-- EMPTY CART -->
+      @else if (!carrito() || carrito()!.detalles.length === 0) {
+        <div class="empty-cart">
+          <i class="fas fa-shopping-cart"></i>
+          <h3>Tu carrito está vacío</h3>
+          <p>Agrega productos desde nuestro menú</p>
+          <a routerLink="/menu" class="btn-primary-cafe">VER MENÚ</a>
+        </div>
+      }
+
+      <!-- CART CONTENT -->
+      @else {
+        <div class="row g-4">
+          <!-- ITEMS -->
+          <div class="col-lg-8">
+            <div class="cart-items">
+              <div class="cart-header">
+                <h4>Productos ({{ carrito()!.detalles.length }})</h4>
+
+                <button
+                  class="btn-vaciar"
+                  (click)="vaciarCarrito()"
+                  [disabled]="carrito()?.estado !== 'ACTIVO' || pagando()"
+                >
+                  <i class="fas fa-trash me-1"></i> Vaciar
+                </button>
+              </div>
+
+              @for (item of carrito()!.detalles; track item.id) {
+                <div class="cart-item">
+                  <!-- IMAGE -->
+                  <div class="item-img">
+                    <img [src]="getImageUrl(item.imagenUrl)" [alt]="item.nombreProducto" />
+                  </div>
+
+                  <!-- INFO -->
+                  <div class="item-info">
+                    <h5>{{ item.nombreProducto }}</h5>
+                    <p class="unit-price">S/ {{ item.precioUnitario | number: '1.2-2' }} c/u</p>
+                  </div>
+
+                  <!-- QTY -->
+                  <div class="item-qty">
+                    <button
+                      (click)="cambiarCantidad(item.id, item.cantidad - 1)"
+                      [disabled]="item.cantidad <= 1 || carrito()?.estado !== 'ACTIVO'"
+                    >
+                      −
+                    </button>
+
+                    <span>{{ item.cantidad }}</span>
+
+                    <button
+                      (click)="cambiarCantidad(item.id, item.cantidad + 1)"
+                      [disabled]="carrito()?.estado !== 'ACTIVO'"
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <!-- SUBTOTAL -->
+                  <div class="item-subtotal">S/ {{ item.subtotal | number: '1.2-2' }}</div>
+
+                  <!-- DELETE -->
+                  <button
+                    class="item-delete"
+                    (click)="eliminarItem(item.id)"
+                    [disabled]="carrito()?.estado !== 'ACTIVO' || pagando()"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- SUMMARY -->
+          <div class="col-lg-4">
+            <div class="cart-summary">
+              <h4>Resumen del pedido</h4>
+
+              <div class="summary-row">
+                <span>Subtotal</span>
+                <strong>S/ {{ carrito()!.total | number: '1.2-2' }}</strong>
+              </div>
+
+              <div class="summary-row total">
+                <span>TOTAL</span>
+                <strong>S/ {{ carrito()!.total | number: '1.2-2' }}</strong>
+              </div>
+
+              <!-- WARNING STATE -->
+              @if (carrito()?.estado !== 'ACTIVO') {
+                <div class="alert alert-warning mt-2">
+                  ⚠️ Este carrito ya fue procesado o confirmado
+                </div>
+              }
+
+              <!-- PAYMENT METHOD -->
+              <div class="pago-method">
+                <label>Método de pago</label>
+
+                <div class="method-options">
+                  <label class="method-opt" [class.selected]="metodoPago === 'EFECTIVO'">
+                    <input
+                      type="radio"
+                      [(ngModel)]="metodoPago"
+                      value="EFECTIVO"
+                      name="metodoPago"
+                    />
+                    <i class="fas fa-money-bill-wave"></i> Efectivo
+                  </label>
+
+                  <label class="method-opt" [class.selected]="metodoPago === 'YAPE'">
+                    <input type="radio" [(ngModel)]="metodoPago" value="YAPE" name="metodoPago" />
+                    <i class="fas fa-mobile-alt"></i> Yape
+                  </label>
+                </div>
+              </div>
+
+              <!-- EFECTIVO -->
+              @if (metodoPago === 'EFECTIVO') {
+                <div class="efectivo-msg">
+                  💵 Debes de pagar en la caja el monto correspondiente
+                </div>
+              }
+
+              <!-- YAPE -->
+              @if (metodoPago === 'YAPE') {
+                <div class="yape-panel">
+                  <h5>Pago con Yape</h5>
+
+                  <div class="yape-qr">
+                    <img [src]="yapeQr" alt="QR Yape" />
+                  </div>
+
+                  <p>
+                    📱 Número: <strong>{{ yapeNumero }}</strong>
+                  </p>
+                  <p>
+                    👤 Titular: <strong>{{ yapeNombre }}</strong>
+                  </p>
+                </div>
+              }
+
+              <!-- PAY BUTTON -->
+              <button
+                class="btn-pagar"
+                (click)="confirmarYPagar()"
+                [disabled]="
+                  pagando() || !metodoPago || !carrito() || carrito()?.estado !== 'ACTIVO'
+                "
+              >
+                {{ pagando() ? 'Procesando...' : 'CONFIRMAR Y PAGAR' }}
+              </button>
+
+              <a routerLink="/our-menu" class="btn-seguir"> Seguir comprando </a>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</div>
+
+<app-footer></app-footer>

@@ -1,0 +1,233 @@
+<!-- ================= HEADER MÓVIL ================= -->
+<header class="mobile-header d-md-none">
+  <div class="mobile-bar">
+    <!-- Logo móvil -->
+    <a routerLink="/" class="mobile-logo">
+      <span class="logo-text">Cafe<span>Hub</span></span>
+    </a>
+
+    <!-- Botón hamburguesa -->
+    <button class="hamburger-btn" type="button" (click)="toggleSidenav()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ================= OVERLAY DEL MENÚ ================= -->
+<div class="sidenav-overlay" [class.active]="sidenavOpen()" (click)="closeSidenav()"></div>
+
+<!-- ================= SIDENAV / MENÚ LATERAL ================= -->
+<nav class="sidenav" [class.open]="sidenavOpen()">
+  <!-- Botón cerrar -->
+  <button class="close-btn" type="button" (click)="closeSidenav()">✕</button>
+
+  <!-- Logo del menú lateral -->
+  <div class="sidenav-logo">
+    <a routerLink="/" (click)="closeSidenav()">
+      <span class="logo-text">Cafe<span>Hub</span></span>
+    </a>
+  </div>
+
+  <!-- ================= USUARIO LOGUEADO EN MÓVIL ================= -->
+  @if (loggedIn()) {
+    <div class="header-user">
+      <span
+        id="userGreetingMobile"
+        class="user-greeting"
+        style="
+          color: #ffffff !important;
+          -webkit-text-fill-color: #ffffff !important;
+          font-size: 15px;
+          font-weight: 600;
+        "
+      >
+        👋 Hola,
+        <strong
+          style="
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            font-weight: 700;
+          "
+        >
+          {{ userName() }}
+        </strong>
+      </span>
+    </div>
+  }
+
+  <!-- ================= MENÚ MÓVIL ================= -->
+  <ul class="sidenav-menu">
+    <li>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        (click)="closeSidenav()"
+      >
+        Inicio
+      </a>
+    </li>
+
+    <li>
+      <a routerLink="/about" routerLinkActive="active" (click)="closeSidenav()"> Nosotros </a>
+    </li>
+
+    <li>
+      <a routerLink="/our-menu" routerLinkActive="active" (click)="closeSidenav()"> Menú </a>
+    </li>
+
+    <li>
+      <a routerLink="/gallery" routerLinkActive="active" (click)="closeSidenav()"> Galería </a>
+    </li>
+
+    <li>
+      <a routerLink="/contact" routerLinkActive="active" (click)="closeSidenav()"> Contacto </a>
+    </li>
+
+    <li>
+      <a routerLink="/reservation" routerLinkActive="active" (click)="closeSidenav()"> Reservas </a>
+    </li>
+
+    <!-- Opciones cuando el usuario inició sesión -->
+    @if (loggedIn()) {
+      <li>
+        <a
+          routerLink="/carrito"
+          routerLinkActive="active"
+          (click)="closeSidenav()"
+          class="cart-link"
+        >
+          <i class="fas fa-shopping-cart me-2"></i>
+          Carrito
+
+          <!-- 🔥 BADGE -->
+          @if (cartCount() > 0) {
+            <span class="cart-badge">
+              {{ cartCount() }}
+            </span>
+          }
+        </a>
+      </li>
+
+      <li>
+        <a routerLink="/mis-pedidos" routerLinkActive="active" (click)="closeSidenav()">
+          <i class="fas fa-receipt me-2"></i>
+          Mis pedidos
+        </a>
+      </li>
+
+      <!-- Opción solo para administrador -->
+      @if (isAdmin()) {
+        <li>
+          <a (click)="openAdmin()" class="nav-link">
+            <i class="fas fa-cogs me-2"></i>
+            Panel Admin
+          </a>
+        </li>
+      }
+
+      <li>
+        <a class="logout-link" (click)="logout(); closeSidenav()">
+          <i class="fas fa-sign-out-alt me-2"></i>
+          Cerrar sesión
+        </a>
+      </li>
+    } @else {
+      <li>
+        <a (click)="login(); closeSidenav()">
+          <i class="fas fa-sign-in-alt me-2"></i>
+          Iniciar sesión
+        </a>
+      </li>
+    }
+  </ul>
+
+  <!-- ================= FOOTER DEL MENÚ LATERAL ================= -->
+  <div class="sidenav-footer">
+    <div class="social-links">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </div>
+
+    <p class="copyright">© 2026 CafeHub</p>
+  </div>
+</nav>
+
+<!-- ================= HEADER DESKTOP ================= -->
+<header class="desktop-header d-none d-md-block">
+  <div class="header-inner">
+    <!-- Logo desktop -->
+    <a routerLink="/" class="logo">
+      <span class="logo-text">Cafe<span>Hub</span></span>
+    </a>
+
+    <!-- Menú desktop -->
+    <nav class="desktop-nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        Inicio
+      </a>
+
+      <a routerLink="/about" routerLinkActive="active"> Nosotros </a>
+
+      <a routerLink="/our-menu" routerLinkActive="active"> Menú </a>
+
+      <a routerLink="/gallery" routerLinkActive="active"> Galería </a>
+
+      <a routerLink="/contact" routerLinkActive="active"> Contacto </a>
+
+      <a routerLink="/reservation" routerLinkActive="active"> Reservas </a>
+    </nav>
+
+    <!-- Acciones del header desktop -->
+    <div class="header-actions">
+      @if (loggedIn()) {
+        <!-- ================= USUARIO LOGUEADO EN DESKTOP ================= -->
+        <span
+          id="userGreetingDesktop"
+          class="user-greeting"
+          style="
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+            font-size: 15px;
+            font-weight: 600;
+          "
+        >
+          👋 Hola,
+          <strong
+            style="
+              color: #ffffff !important;
+              -webkit-text-fill-color: #ffffff !important;
+              font-weight: 700;
+            "
+          >
+            {{ userName() }}
+          </strong>
+        </span>
+
+        <a routerLink="/carrito" class="action-btn" title="Carrito">
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+
+        <a routerLink="/mis-pedidos" class="action-btn" title="Mis pedidos">
+          <i class="fas fa-receipt"></i>
+        </a>
+
+        <!-- Botón admin solo si es administrador -->
+        @if (isAdmin()) {
+          <a routerLink="/admin" class="action-btn" title="Administrador">
+            <i class="fas fa-cogs"></i>
+          </a>
+        }
+
+        <button class="btn-primary-cafe btn-sm-cafe" type="button" (click)="logout()">
+          Cerrar sesión
+        </button>
+      } @else {
+        <button class="btn-primary-cafe" type="button" (click)="login()">Iniciar sesión</button>
+      }
+    </div>
+  </div>
+</header>

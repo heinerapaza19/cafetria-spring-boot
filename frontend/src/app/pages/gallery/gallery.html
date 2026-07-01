@@ -1,0 +1,32 @@
+<app-header></app-header>
+
+<div class="gallery-page">
+  <!-- HERO -->
+  <section class="gallery-hero">
+    <span>Nuestro espacio</span>
+    <h1>GALERÍA</h1>
+    <p>Un vistazo real a nuestra cafetería</p>
+  </section>
+
+  <!-- GRID -->
+  <section class="gallery-content">
+    <div class="container">
+      <div class="row">
+        @for (img of images; track img) {
+          <div class="col-sm-6 col-md-4">
+            <div class="gallery-card">
+              <img [src]="img" alt="cafe" />
+
+              <div class="overlay">
+                <h5>Café Especial</h5>
+                <p>Experiencia premium</p>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+</div>
+
+<app-footer></app-footer>

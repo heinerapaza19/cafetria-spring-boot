@@ -1,0 +1,491 @@
+/* ==========================================================
+   HERO SLIDER
+========================================================== */
+
+.hero-slider {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  padding-top: 75px;
+  background: #2c1a0e;
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      z-index: 2;
+    }
+  }
+
+  .slide-content {
+    text-align: center;
+    color: #ffffff;
+    padding: 0 20px;
+    max-width: 800px;
+    position: relative;
+    z-index: 3;
+  }
+
+  .slide-tag {
+    display: block;
+    color: #c8a97e;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .slide-title {
+    font-size: clamp(42px, 7vw, 80px);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: #ffffff;
+  }
+
+  .slide-sub {
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 40px;
+  }
+
+  .slide-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* ==========================================================
+   BOTONES DEL SLIDER
+========================================================== */
+
+.btn-slider {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 160px;
+  padding: 13px 24px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-slider i {
+  font-size: 14px;
+}
+
+/* Botón principal */
+.btn-slider.primary {
+  background: #c8a97e;
+  color: #2c1a0e;
+  border-color: #c8a97e;
+}
+
+.btn-slider.primary:hover {
+  background: #ffffff;
+  color: #2c1a0e;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Botón secundario */
+.btn-slider.secondary {
+  background: transparent;
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+.btn-slider.secondary:hover {
+  background: #ffffff;
+  color: #2c1a0e;
+  transform: translateY(-2px);
+}
+
+/* Botón tipo ghost */
+.btn-slider.ghost {
+  background: transparent;
+  color: #c8a97e;
+  border-color: #c8a97e;
+}
+
+.btn-slider.ghost:hover {
+  background: #c8a97e;
+  color: #2c1a0e;
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+   DOTS DEL SLIDER
+========================================================== */
+
+.slider-dots {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.slider-dots .dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.slider-dots .dot.active {
+  background: #c8a97e;
+  border-color: #c8a97e;
+  transform: scale(1.2);
+}
+
+/* ==========================================================
+   ABOUT
+========================================================== */
+
+.about-strip {
+  padding: 80px 20px;
+}
+
+.section-head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.label-tag {
+  color: #c8a97e;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.main-title {
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 700;
+  color: #2c1a0e;
+  margin-bottom: 14px;
+}
+
+.separator {
+  width: 70px;
+  height: 3px;
+  background: #c8a97e;
+  margin: 0 auto 22px;
+  border-radius: 20px;
+}
+
+.sub-title {
+  font-size: 16px;
+  color: #6b5b50;
+  line-height: 1.7;
+}
+
+.bg-light-cafe {
+  background: #f8f3ec;
+}
+
+/* ==========================================================
+   FEATURES
+========================================================== */
+
+.features-section .main-title {
+  color: #ffffff;
+}
+
+.features-section .sub-title {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.feature-box {
+  padding: 24px 15px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.feature-box i {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid rgba(200, 169, 126, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 30px;
+  color: #c8a97e;
+  transition: all 0.3s ease;
+}
+
+.feature-box h5 {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  letter-spacing: 1px;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+}
+
+.feature-box:hover i {
+  background: #c8a97e;
+  color: #ffffff;
+  transform: translateY(-4px);
+}
+
+/* ==========================================================
+   TOAST
+========================================================== */
+
+.toast-message {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background: #2c1a0e;
+  color: #c8a97e;
+  padding: 14px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================
+   MENÚ PREVIEW
+========================================================== */
+
+.menu-preview {
+  padding: 90px 20px;
+  background: #ffffff;
+}
+
+.product-card {
+  background: #ffffff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
+}
+
+.product-img {
+  width: 100%;
+  height: 230px;
+  object-fit: cover;
+  display: block;
+}
+
+.product-body {
+  padding: 22px;
+}
+
+.product-body h5 {
+  color: #2c1a0e;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.product-body p {
+  color: #6b5b50;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.price {
+  color: #c8a97e;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ==========================================================
+   BOTÓN PRINCIPAL CAFÉ
+========================================================== */
+
+.btn-primary-cafe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #c8a97e;
+  color: #2c1a0e;
+  border: 2px solid #c8a97e;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.btn-primary-cafe:hover {
+  background: #2c1a0e;
+  color: #ffffff;
+  border-color: #2c1a0e;
+}
+
+/* ==========================================================
+   SPINNER
+========================================================== */
+
+.cafe-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 180px;
+}
+
+.spinner-border {
+  width: 42px;
+  height: 42px;
+  border: 4px solid rgba(200, 169, 126, 0.3);
+  border-top-color: #c8a97e;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==========================================================
+   CTA
+========================================================== */
+
+.cta-section {
+  background: linear-gradient(135deg, #c8a97e, #a07850);
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.cta-content h2 {
+  font-size: 38px;
+  color: #ffffff;
+  margin-bottom: 14px;
+  font-weight: 700;
+}
+
+.cta-content p {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 32px;
+}
+
+.cta-section .btn-primary-cafe {
+  background: #ffffff;
+  color: #2c1a0e;
+  border-color: #ffffff;
+}
+
+.cta-section .btn-primary-cafe:hover {
+  background: #2c1a0e;
+  color: #ffffff;
+  border-color: #2c1a0e;
+}
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+@media (max-width: 768px) {
+  .hero-slider {
+    padding-top: 60px;
+  }
+
+  .slide-title {
+    font-size: 42px;
+  }
+
+  .slide-sub {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .slide-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-slider {
+    width: 100%;
+    max-width: 260px;
+  }
+
+  .product-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .product-footer .btn-primary-cafe {
+    width: 100%;
+  }
+
+  .toast-message {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    text-align: center;
+  }
+
+  .cta-content h2 {
+    font-size: 30px;
+  }
+}

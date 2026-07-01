@@ -1,0 +1,305 @@
+/* =========================
+   🏷️ TOPBAR
+========================= */
+.admin-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.admin-topbar h2 {
+  font-size: 28px;
+  color: #2c1a0e;
+  margin-bottom: 4px;
+  font-weight: 700;
+}
+
+/* =========================
+   🔔 ALERTAS
+========================= */
+.alert-top {
+  padding: 12px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.alert-top.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.alert-top.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* =========================
+   📊 TABLA GENERAL
+========================= */
+.table-cafe {
+  border-collapse: collapse;
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table-cafe th {
+  text-align: left;
+  font-size: 13px;
+  color: #6b4e3d;
+  padding: 14px 12px;
+  background: #fff7f0;
+}
+
+.table-cafe td {
+  padding: 12px;
+  vertical-align: middle;
+}
+
+.table-cafe tr {
+  transition: all 0.2s ease;
+}
+
+.table-cafe tr:hover {
+  background: #fff7f0;
+}
+
+/* =========================
+   🖼️ IMAGEN PRODUCTO (PRO PEQUEÑA)
+========================= */
+.table-img-real {
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+  border-radius: 10px;
+  display: block;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.table-img-real:hover {
+  transform: scale(1.18);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* PLACEHOLDER */
+.table-img-placeholder {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f5e6d3, #c8a97e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 14px;
+}
+
+/* =========================
+   🔘 BOTONES ACCIONES
+========================= */
+.action-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.btn-action.edit {
+  background: rgba(200, 169, 126, 0.15);
+  color: #c8a97e;
+}
+
+.btn-action.edit:hover {
+  background: #c8a97e;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.btn-action.delete {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.btn-action.delete:hover {
+  background: #dc3545;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* =========================
+   🟢 STOCK BADGES
+========================= */
+.badge-stock {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.no-stock {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.low-stock {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.in-stock {
+  background: #d4edda;
+  color: #155724;
+}
+
+/* =========================
+   🪟 MODAL
+========================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 9000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* =========================
+   🧾 MODAL HEADER
+========================= */
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 26px;
+  border-bottom: 1px solid #f0e8dc;
+}
+
+.modal-header h4 {
+  margin: 0;
+  font-size: 18px;
+  color: #2c1a0e;
+  font-weight: 700;
+}
+
+/* =========================
+   🧾 MODAL BODY (MEJORADO)
+========================= */
+.modal-body {
+  padding: 26px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #6b4e3d;
+  text-transform: uppercase;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #e8d9c8;
+  border-radius: 10px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: #c8a97e;
+  box-shadow: 0 0 0 3px rgba(200, 169, 126, 0.2);
+}
+
+.field:nth-child(2),
+.field:nth-child(6) {
+  grid-column: span 2;
+}
+
+/* =========================
+   🧾 MODAL FOOTER
+========================= */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 26px;
+  background: #fdf6ef;
+}
+
+/* =========================
+   🔘 BOTONES
+========================= */
+.btn-primary-cafe {
+  background: #c8a97e;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.btn-cancel {
+  background: #fff;
+  border: 2px solid #e8d9c8;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}

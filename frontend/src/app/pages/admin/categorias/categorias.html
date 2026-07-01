@@ -1,0 +1,143 @@
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <app-admin-sidebar></app-admin-sidebar>
+  </div>
+
+  <main class="admin-content">
+    <!-- =========================
+         MENSAJES
+    ========================= -->
+    @if (mensaje()) {
+      <div
+        class="alert-top"
+        [class.success]="mensajeTipo() === 'success'"
+        [class.error]="mensajeTipo() === 'error'"
+      >
+        {{ mensaje() }}
+      </div>
+    }
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+    <div class="admin-topbar">
+      <div>
+        <h2>Categorías</h2>
+        <p class="text-muted">Organiza los productos por categoría</p>
+      </div>
+
+      <button class="btn-primary-cafe" (click)="abrirModal()">
+        <i class="fas fa-plus me-2"></i>
+        Nueva Categoría
+      </button>
+    </div>
+
+    <!-- =========================
+         LOADING
+    ========================= -->
+    @if (loading()) {
+      <div class="cafe-spinner">
+        <div class="spinner-border"></div>
+      </div>
+    }
+
+    <!-- =========================
+         LISTA DE CATEGORÍAS
+    ========================= -->
+    @else {
+      <div class="row g-3">
+        @for (c of categorias(); track c.id) {
+          <div class="col-sm-6 col-md-4">
+            <div class="cat-card">
+              <!-- IMAGEN -->
+              @if (c.imagen) {
+                <img
+                  class="cat-img"
+                  [src]="getImgUrl(c.imagen)"
+                  [alt]="c.nombre"
+                  (error)="onImgError($event)"
+                />
+              } @else {
+                <div class="cat-img-placeholder">
+                  <i class="fas fa-tags"></i>
+                </div>
+              }
+
+              <!-- CONTENIDO -->
+              <div class="cat-body">
+                <h5>{{ c.nombre }}</h5>
+                <p>{{ c.descripcion || 'Sin descripción' }}</p>
+
+                <!-- BOTONES -->
+                <div class="cat-actions">
+                  <button class="btn-action edit" (click)="abrirModal(c)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+
+                  <button class="btn-action delete" (click)="eliminar(c.id)">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- =========================
+         MODAL
+    ========================= -->
+    @if (showModal()) {
+      <div class="modal-overlay" (click)="showModal.set(false)">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          <!-- HEADER -->
+          <div class="modal-header">
+            <h4>
+              {{ editMode ? 'Editar Categoría' : 'Nueva Categoría' }}
+            </h4>
+
+            <button (click)="showModal.set(false)">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- BODY -->
+          <div class="modal-body">
+            <div class="field">
+              <label>Nombre *</label>
+              <input [(ngModel)]="form.nombre" />
+            </div>
+
+            <div class="field">
+              <label>Descripción</label>
+              <textarea rows="2" [(ngModel)]="form.descripcion"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Imagen</label>
+              <input type="file" (change)="onFileChange($event)" />
+            </div>
+          </div>
+
+          <!-- FOOTER -->
+          <div class="modal-footer">
+            <button class="btn-cancel" (click)="showModal.set(false)">Cancelar</button>
+
+            <button
+              class="btn-primary-cafe"
+              (click)="guardar()"
+              [disabled]="saving() || !form.nombre"
+            >
+              @if (saving()) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              }
+
+              {{ saving() ? 'Guardando...' : 'Guardar' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+</div>

@@ -1,0 +1,173 @@
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <app-admin-sidebar></app-admin-sidebar>
+  </div>
+
+  <main class="admin-content">
+    @if (mensaje()) {
+      <div class="alert-top success">
+        {{ mensaje() }}
+      </div>
+    }
+
+    <div class="pedidos-header">
+      <div>
+        <h2>📦 Pedidos - Calendario</h2>
+        <p>Selecciona un mes y luego un día para ver los pedidos</p>
+      </div>
+    </div>
+
+    @if (selectedDate()) {
+      <div class="dashboard">
+        <div class="dash-card">
+          <span>Total pedidos</span>
+          <strong>{{ totalPedidosDia }}</strong>
+        </div>
+
+        <div class="dash-card">
+          <span>Total del día</span>
+          <strong>S/ {{ totalMontoDia | number: '1.2-2' }}</strong>
+        </div>
+
+        <div class="dash-card">
+          <span>Pendientes</span>
+          <strong>{{ pendientesDia }}</strong>
+        </div>
+
+        <div class="dash-card">
+          <span>Entregados</span>
+          <strong>{{ entregadosDia }}</strong>
+        </div>
+      </div>
+    }
+
+    <div class="months">
+      @for (m of months; let i = $index; track i) {
+        <button
+          class="month-btn"
+          (click)="seleccionarMes(i)"
+          [class.active]="selectedMonth() === i"
+        >
+          {{ m }}
+        </button>
+      }
+    </div>
+
+    @if (loading()) {
+      <div class="loading-box">
+        <div class="spinner-border"></div>
+        <span>Cargando pedidos...</span>
+      </div>
+    } @else {
+      <section class="calendar-card">
+        <div class="calendar-header">
+          <h3>📅 {{ months[selectedMonth()] }} {{ currentYear }}</h3>
+          <span>Pedidos por día</span>
+        </div>
+
+        <div class="calendar-week">
+          <div>Lun</div>
+          <div>Mar</div>
+          <div>Mié</div>
+          <div>Jue</div>
+          <div>Vie</div>
+          <div>Sáb</div>
+          <div>Dom</div>
+        </div>
+
+        <div class="calendar-grid">
+          @for (d of days; track $index) {
+            <div
+              class="calendar-day"
+              [class.empty]="!d"
+              [class.active]="d && selectedDay() === d"
+              [class.has-orders]="tienePedidos(d)"
+              (click)="d && seleccionarDia(d)"
+            >
+              @if (d) {
+                <div class="day-top">
+                  <span class="day-number">{{ d }}</span>
+
+                  @if (tienePedidos(d)) {
+                    <span class="day-count">
+                      {{ cantidadPedidosDia(d) }}
+                    </span>
+                  }
+                </div>
+
+                @if (tienePedidos(d)) {
+                  <div class="day-body">
+                    <span>{{ cantidadPedidosDia(d) }} pedido(s)</span>
+                    <strong>S/ {{ totalDiaCalendario(d) | number: '1.0-0' }}</strong>
+                  </div>
+                } @else {
+                  <div class="day-body empty-text">Sin pedidos</div>
+                }
+
+                @if (tienePedidos(d)) {
+                  <div class="pedidos-dots">
+                    <span></span>
+                    @if (cantidadPedidosDia(d) > 1) {
+                      <span></span>
+                    }
+                    @if (cantidadPedidosDia(d) > 2) {
+                      <span></span>
+                    }
+                  </div>
+                }
+              }
+            </div>
+          }
+        </div>
+      </section>
+
+      @if (!selectedDate()) {
+        <div class="empty-select">📅 Selecciona un día del calendario</div>
+      }
+
+      @if (selectedDate()) {
+        <section class="day-panel">
+          <div class="day-panel-header">
+            <div>
+              <h3>Pedidos del {{ selectedDate() }}</h3>
+              <p>{{ totalPedidosDia }} pedido(s) encontrados</p>
+            </div>
+          </div>
+
+          @if (pedidosDelDia().length === 0) {
+            <div class="no-orders">No hay pedidos para este día.</div>
+          } @else {
+            <div class="orders-grid">
+              @for (p of pedidosDelDia(); track p.id) {
+                <article class="order-card">
+                  <div class="order-top">
+                    <strong>#{{ p.id }}</strong>
+                    <span class="estado-badge" [ngClass]="estadoClass(p.estado)">
+                      {{ p.estado }}
+                    </span>
+                  </div>
+
+                  <div class="order-info">
+                    <p>👤 Usuario {{ p.idUsuario }}</p>
+                    <p>🕒 {{ p.fechaCreacion | date: 'HH:mm' }}</p>
+                    <p class="total">S/ {{ p.total | number: '1.2-2' }}</p>
+                  </div>
+
+                  <select
+                    class="estado-select"
+                    [ngClass]="p.estado.toLowerCase()"
+                    [value]="p.estado"
+                  >
+                    @for (e of estados; track e) {
+                      <option [value]="e">{{ e }}</option>
+                    }
+                  </select>
+                </article>
+              }
+            </div>
+          }
+        </section>
+      }
+    }
+  </main>
+</div>

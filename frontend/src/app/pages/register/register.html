@@ -1,0 +1,109 @@
+<div class="login-page">
+  <div class="login-left">
+    <div class="brand">
+      <a routerLink="/" class="logo-text">Cafe<span>Zone</span></a>
+      <p>El mejor café de la ciudad</p>
+    </div>
+    <div class="login-quote">
+      <blockquote>"Cada taza de café es una nueva historia por descubrir"</blockquote>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Crear Cuenta</h2>
+        <p>Únete a nuestra comunidad cafetera</p>
+      </div>
+
+      @if (error()) {
+        <div class="alert alert-danger alert-cafe" role="alert">
+          <i class="fas fa-exclamation-circle me-2"></i>{{ error() }}
+        </div>
+      }
+
+      @if (success()) {
+        <div class="alert alert-success alert-cafe" role="alert">
+          <i class="fas fa-check-circle me-2"></i>{{ success() }}
+        </div>
+      }
+
+      <form (ngSubmit)="submit()" #form="ngForm">
+        <div class="form-group">
+          <label>Usuario</label>
+          <div class="input-wrapper">
+            <i class="fas fa-user"></i>
+            <input
+              type="text"
+              [(ngModel)]="username"
+              name="username"
+              placeholder="Elige un nombre de usuario"
+              autocomplete="username"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Correo electrónico</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope"></i>
+            <input
+              type="email"
+              [(ngModel)]="email"
+              name="email"
+              placeholder="tu&#64;correo.com"
+              autocomplete="email"
+              required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock"></i>
+            <input
+              [type]="showPassword() ? 'text' : 'password'"
+              [(ngModel)]="password"
+              name="password"
+              placeholder="Mínimo 6 caracteres"
+              autocomplete="new-password"
+              required>
+            <button type="button" class="toggle-pass" (click)="showPassword.set(!showPassword())">
+              <i [class]="showPassword() ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Confirmar contraseña</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock"></i>
+            <input
+              [type]="showConfirm() ? 'text' : 'password'"
+              [(ngModel)]="confirmPassword"
+              name="confirmPassword"
+              placeholder="Repite tu contraseña"
+              autocomplete="new-password"
+              required>
+            <button type="button" class="toggle-pass" (click)="showConfirm.set(!showConfirm())">
+              <i [class]="showConfirm() ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" [disabled]="loading() || !!success()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          }
+          {{ loading() ? 'Creando cuenta...' : 'CREAR CUENTA' }}
+        </button>
+      </form>
+
+      <div class="login-footer">
+        <a routerLink="/">← Volver al inicio</a>
+        <span class="separator">|</span>
+        <a routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,217 @@
+<app-header></app-header>
+
+<main class="page-wrapper">
+  <section class="hero-pedidos">
+    <div class="hero-content">
+      <div>
+        <span class="label-tag">
+          <i class="fas fa-receipt"></i>
+          Historial de compras
+        </span>
+
+        <h1>Mis pedidos</h1>
+        <p>Consulta el estado de tus pedidos y revisa el detalle de tus productos.</p>
+      </div>
+
+      <a routerLink="/our-menu" class="btn-menu">
+        <i class="fas fa-utensils"></i>
+        Ver menú
+      </a>
+    </div>
+  </section>
+
+  <section class="pedidos-section">
+    <div class="container">
+      @if (loading()) {
+        <div class="loading-card">
+          <div class="coffee-loader">
+            <i class="fas fa-mug-hot"></i>
+          </div>
+          <h3>Cargando tus pedidos...</h3>
+          <p>Estamos preparando tu historial.</p>
+        </div>
+      } @else if (errorMsg()) {
+        <div class="empty-state error-state">
+          <i class="fas fa-triangle-exclamation"></i>
+          <h3>Error al cargar pedidos</h3>
+          <p>{{ errorMsg() }}</p>
+
+          <button type="button" class="btn-primary-cafe" (click)="cargarPedidos()">
+            <i class="fas fa-rotate-right"></i>
+            Reintentar
+          </button>
+        </div>
+      } @else if (pedidos().length === 0) {
+        <div class="empty-state">
+          <i class="fas fa-receipt"></i>
+          <h3>No tienes pedidos aún</h3>
+          <p>Haz tu primer pedido y disfruta nuestras especialidades.</p>
+
+          <a routerLink="/our-menu" class="btn-primary-cafe">
+            <i class="fas fa-mug-hot"></i>
+            Ver menú
+          </a>
+        </div>
+      } @else {
+        <div class="resumen-grid">
+          <div class="resumen-card">
+            <div class="resumen-icon">
+              <i class="fas fa-bag-shopping"></i>
+            </div>
+            <div>
+              <span>Total de pedidos</span>
+              <strong>{{ totalPedidos() }}</strong>
+            </div>
+          </div>
+
+          <div class="resumen-card">
+            <div class="resumen-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div>
+              <span>Pendientes</span>
+              <strong>{{ pedidosPendientes() }}</strong>
+            </div>
+          </div>
+
+          <div class="resumen-card">
+            <div class="resumen-icon">
+              <i class="fas fa-coins"></i>
+            </div>
+            <div>
+              <span>Total acumulado</span>
+              <strong>S/ {{ totalGastado() | number: '1.2-2' }}</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="pedidos-list">
+          @for (p of pedidos(); track p.id) {
+            <article class="pedido-card" [class.abierto]="pedidoAbierto() === p.id">
+              <button type="button" class="pedido-header" (click)="toggleDetalle(p.id)">
+                <div class="pedido-left">
+                  <div class="pedido-avatar">
+                    <i class="fas fa-mug-saucer"></i>
+                  </div>
+
+                  <div>
+                    <div class="pedido-title">
+                      <strong>Pedido #{{ p.id }}</strong>
+
+                      <span class="estado-badge" [ngClass]="estadoClass(p.estado)">
+                        {{ estadoLabel(p.estado) }}
+                      </span>
+                    </div>
+
+                    <div class="pedido-subtitle">
+                      <span>
+                        <i class="fas fa-calendar-day"></i>
+                        {{ p.fechaCreacion | date: 'dd/MM/yyyy HH:mm' }}
+                      </span>
+
+                      <span>
+                        <i class="fas fa-box-open"></i>
+                        {{ totalItems(p) }} producto(s)
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pedido-right">
+                  <div class="pedido-total-box">
+                    <span>Total</span>
+                    <strong>S/ {{ p.total | number: '1.2-2' }}</strong>
+                  </div>
+
+                  <i
+                    class="fas icon-arrow"
+                    [class.fa-chevron-down]="pedidoAbierto() !== p.id"
+                    [class.fa-chevron-up]="pedidoAbierto() === p.id"
+                  ></i>
+                </div>
+              </button>
+
+              @if (pedidoAbierto() === p.id) {
+                <div class="pedido-body">
+                  @if (p.estado !== 'CANCELADO') {
+                    <div class="estado-flow">
+                      @for (step of estadosPedido; track step.key; let i = $index) {
+                        <div
+                          class="estado-step"
+                          [class.done]="i <= estadoIndex(p.estado)"
+                          [class.current]="i === estadoIndex(p.estado)"
+                        >
+                          <div class="step-circle">
+                            <i class="fas" [ngClass]="step.icon"></i>
+                          </div>
+                          <span>{{ step.label }}</span>
+                        </div>
+                      }
+                    </div>
+                  }
+
+                  @if (!p.detalles || p.detalles.length === 0) {
+                    <div class="sin-detalles">
+                      <i class="fas fa-circle-info"></i>
+                      Este pedido no tiene productos registrados.
+                    </div>
+                  } @else {
+                    <div class="detalle-header">
+                      <h3>Detalle del pedido</h3>
+                      <span>{{ p.detalles.length }} item(s)</span>
+                    </div>
+
+                    <div class="detalle-responsive">
+                      <table class="detalle-table">
+                        <thead>
+                          <tr>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                            <th>P. Unit.</th>
+                            <th>Subtotal</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          @for (d of p.detalles; track d.idProducto) {
+                            <tr>
+                              <td>
+                                <div class="producto-cell">
+                                  <div class="producto-icon">
+                                    <i class="fas fa-utensils"></i>
+                                  </div>
+                                  <strong>{{ d.nombreProducto }}</strong>
+                                </div>
+                              </td>
+
+                              <td>
+                                <span class="cantidad-pill">{{ d.cantidad }}</span>
+                              </td>
+
+                              <td>S/ {{ d.precioUnitario | number: '1.2-2' }}</td>
+
+                              <td>
+                                <strong>S/ {{ d.subtotal | number: '1.2-2' }}</strong>
+                              </td>
+                            </tr>
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+
+                    <div class="pedido-footer-total">
+                      <span>Total pagado / por pagar</span>
+                      <strong>S/ {{ p.total | number: '1.2-2' }}</strong>
+                    </div>
+                  }
+                </div>
+              }
+            </article>
+          }
+        </div>
+      }
+    </div>
+  </section>
+</main>
+
+<app-footer></app-footer>

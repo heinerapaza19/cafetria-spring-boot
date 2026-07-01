@@ -1,0 +1,161 @@
+<div class="caja-container">
+  <!-- ========================= -->
+  <!-- HEADER -->
+  <!-- ========================= -->
+  <div class="caja-header">
+    <h2>💼 Caja - Control de Pagos</h2>
+    <p>Selecciona un mes y luego un día</p>
+  </div>
+
+  <!-- ========================= -->
+  <!-- 📊 DASHBOARD (STRIPE STYLE) -->
+  <!-- ========================= -->
+  @if (selectedDate()) {
+    <div class="dashboard">
+      <div class="card">
+        <h4>Total del día</h4>
+        <h2>S/ {{ totalDia() }}</h2>
+      </div>
+
+      <div class="card">
+        <h4>Ventas</h4>
+        <h2>{{ ventasDia() }}</h2>
+      </div>
+
+      <div class="card">
+        <h4>Pendientes</h4>
+        <h2>{{ pendientesDia() }}</h2>
+      </div>
+    </div>
+  }
+
+  <!-- ========================= -->
+  <!-- 📅 MESES -->
+  <!-- ========================= -->
+  <div class="months">
+    @for (m of months; let i = $index; track i) {
+      <button class="month-btn" (click)="seleccionarMes(i)" [class.active]="selectedMonth() === i">
+        {{ m }}
+      </button>
+    }
+  </div>
+
+  <!-- ========================= -->
+  <!-- 📅 CALENDARIO -->
+  <!-- ========================= -->
+  @if (selectedMonth() !== null) {
+    <div class="calendar-container">
+      <div class="calendar-header">
+        <h3>📅 {{ months[selectedMonth()!] }}</h3>
+      </div>
+
+      <!-- DÍAS SEMANA -->
+      <div class="calendar-week">
+        <div>Lun</div>
+        <div>Mar</div>
+        <div>Mié</div>
+        <div>Jue</div>
+        <div>Vie</div>
+        <div>Sáb</div>
+        <div>Dom</div>
+      </div>
+
+      <!-- GRID -->
+      <div class="calendar-grid">
+        @for (d of days; track d) {
+          <div class="calendar-day" [class.empty]="!d" (click)="d && seleccionarDia(d)">
+            @if (d) {
+              <!-- 🔥 DÍA -->
+              <span class="day-number">{{ d }}</span>
+
+              <!-- 🟢 puntos ventas (Google Calendar style) -->
+              @if (tieneVentas(d)) {
+                <div class="dots">
+                  <span></span>
+                </div>
+              }
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- ========================= -->
+  <!-- ⏳ LOADING -->
+  <!-- ========================= -->
+  @if (loading()) {
+    <div class="loading-box">⏳ Cargando pagos...</div>
+  }
+
+  <!-- ========================= -->
+  <!-- 📊 PAGOS DEL DÍA -->
+  <!-- ========================= -->
+  @if (selectedDate() && !loading()) {
+    <div class="table-wrapper">
+      <table class="caja-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Monto</th>
+            <th>Método</th>
+            <th>Estado</th>
+            <th>Ticket</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for (p of pagosDelDia(); track p.id) {
+            <tr>
+              <td>#{{ p.id }}</td>
+
+              <td class="monto">S/ {{ p.monto }}</td>
+
+              <td>
+                <span class="metodo">{{ p.metodo }}</span>
+              </td>
+
+              <td>
+                <span class="estado" [class]="p.estado?.toLowerCase()">
+                  {{ getEstado(p) }}
+                </span>
+              </td>
+
+              <!-- ========================= -->
+              <!-- TICKET (SIEMPRE VISIBLE) -->
+              <!-- ========================= -->
+              <td>
+                <button class="btn-ticket" (click)="verTicket(p)">📄 Ver Ticket</button>
+              </td>
+
+              <!-- ========================= -->
+              <!-- ACCIÓN -->
+              <!-- ========================= -->
+              <td>
+                @if (!p.ticketGenerado) {
+                  <button class="btn-confirm" (click)="confirmarPago(getPagoId(p)!)">
+                    ✔ Confirmar
+                  </button>
+
+                  <button class="btn-reject" (click)="rechazarPago(getPagoId(p)!)">
+                    ❌ Rechazar
+                  </button>
+                } @else {
+                  <span class="ok-badge">✔ PAGADO</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- ========================= -->
+  <!-- EMPTY -->
+  <!-- ========================= -->
+  @if (!selectedDate() && !loading() && selectedMonth() !== null) {
+    <div class="empty">📅 Selecciona un día del calendario</div>
+  }
+</div>

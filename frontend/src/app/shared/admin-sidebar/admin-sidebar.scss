@@ -1,0 +1,112 @@
+.admin-sidebar-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 20px;
+}
+
+.sidebar-brand {
+  padding: 28px 24px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+
+  a {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    display: block;
+    span { color: #c8a97e; }
+  }
+
+  small {
+    display: block;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+}
+
+.sidebar-nav {
+  flex: 1;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.nav-group {
+  margin-bottom: 8px;
+
+  .nav-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    padding: 12px 24px 6px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    padding: 12px 24px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+
+    i { width: 18px; text-align: center; font-size: 15px; }
+
+    &:hover {
+      color: #c8a97e;
+      background: rgba(200, 169, 126, 0.08);
+    }
+
+    &.active {
+      color: #c8a97e;
+      background: rgba(200, 169, 126, 0.12);
+      border-left-color: #c8a97e;
+    }
+  }
+}
+
+.sidebar-footer {
+  padding: 20px 24px 0;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+
+  i { font-size: 32px; color: rgba(255,255,255,0.4); }
+
+  strong { display: block; color: #fff; font-size: 14px; }
+  small  { color: rgba(255,255,255,0.4); font-size: 12px; }
+}
+
+.logout-btn {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  &:hover {
+    background: rgba(255,80,80,0.15);
+    border-color: rgba(255,80,80,0.3);
+    color: #ff6464;
+  }
+}

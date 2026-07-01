@@ -1,0 +1,174 @@
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <app-admin-sidebar></app-admin-sidebar>
+  </div>
+
+  <main class="admin-content">
+    <!-- 🔔 MENSAJES -->
+    @if (mensaje()) {
+      <div
+        class="alert-top"
+        [class.success]="mensajeTipo() === 'success'"
+        [class.error]="mensajeTipo() === 'error'"
+      >
+        {{ mensaje() }}
+      </div>
+    }
+
+    <!-- TOPBAR -->
+    <div class="admin-topbar">
+      <div>
+        <h2>Productos</h2>
+        <p class="text-muted">Gestiona el catálogo de productos</p>
+      </div>
+
+      <button class="btn-primary-cafe" (click)="abrirModal()">
+        <i class="fas fa-plus me-2"></i>Nuevo Producto
+      </button>
+    </div>
+
+    <!-- LOADING -->
+    @if (loading()) {
+      <div class="cafe-spinner">
+        <div class="spinner-border"></div>
+      </div>
+    } @else {
+      <div class="table-responsive">
+        <table class="table-cafe w-100">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            @for (p of productos(); track p.id) {
+              <tr>
+                <!-- ========================= -->
+                <!-- 🖼️ IMAGEN CORREGIDA -->
+                <!-- ========================= -->
+                <td>
+                  <img
+                    [src]="getImgUrl(p.imagen)"
+                    [alt]="p.nombre"
+                    class="table-img-real"
+                    (error)="onImgError($event)"
+                  />
+                </td>
+
+                <!-- INFO -->
+                <td>
+                  <strong>{{ p.nombre }}</strong>
+                  <br />
+                  <small class="text-muted">
+                    {{ p.descripcion }}
+                  </small>
+                </td>
+
+                <!-- PRECIO -->
+                <td>
+                  <strong style="color: #c8a97e"> S/ {{ p.precio | number: '1.2-2' }} </strong>
+                </td>
+
+                <!-- STOCK -->
+                <td>
+                  @if (p.stock === 0) {
+                    <span class="badge-stock no-stock">Agotado</span>
+                  } @else if (p.stock <= 5) {
+                    <span class="badge-stock low-stock"> {{ p.stock }} restantes </span>
+                  } @else {
+                    <span class="badge-stock in-stock"> {{ p.stock }} disponibles </span>
+                  }
+                </td>
+
+                <!-- ACCIONES -->
+                <td>
+                  <div class="action-btns">
+                    <button class="btn-action edit" (click)="abrirModal(p)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+
+                    <button class="btn-action delete" (click)="eliminar(p.id)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+
+    <!-- MODAL (igual lo dejo igual) -->
+    @if (showModal()) {
+      <div class="modal-overlay" (click)="showModal.set(false)">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          <div class="modal-header">
+            <h4>{{ editMode ? 'Editar Producto' : 'Nuevo Producto' }}</h4>
+
+            <button (click)="showModal.set(false)">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <!-- NOMBRE -->
+            <div class="field">
+              <label>Nombre *</label>
+              <input [(ngModel)]="form.nombre" />
+            </div>
+
+            <!-- DESCRIPCIÓN -->
+            <div class="field">
+              <label>Descripción</label>
+              <textarea [(ngModel)]="form.descripcion" rows="2"></textarea>
+            </div>
+
+            <!-- CATEGORÍA -->
+            <div class="field">
+              <label>Categoría</label>
+              <select [(ngModel)]="form.idCategoria">
+                <option [value]="0">Seleccionar...</option>
+
+                @for (c of categorias(); track c.id) {
+                  <option [value]="c.id">
+                    {{ c.nombre }}
+                  </option>
+                }
+              </select>
+            </div>
+
+            <!-- PRECIO -->
+            <div class="field">
+              <label>Precio</label>
+              <input type="number" [(ngModel)]="form.precio" min="0" step="0.01" />
+            </div>
+
+            <!-- STOCK -->
+            <div class="field">
+              <label>Stock</label>
+              <input type="number" [(ngModel)]="form.stock" min="0" />
+            </div>
+
+            <!-- IMAGEN -->
+            <div class="field">
+              <label>Imagen</label>
+              <input type="file" (change)="onFileChange($event)" />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button (click)="showModal.set(false)">Cancelar</button>
+
+            <button (click)="guardar()">Guardar</button>
+          </div>
+        </div>
+      </div>
+    }
+  </main>
+</div>

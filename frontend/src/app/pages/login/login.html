@@ -1,0 +1,50 @@
+<div class="login-page">
+  <div class="login-left">
+    <div class="brand">
+      <a routerLink="/" class="logo-text">Cafe<span>Hub</span></a>
+      <p>El mejor café de la ciudad</p>
+    </div>
+
+    <div class="login-quote">
+      <blockquote>"La vida es demasiado corta para tomar mal café"</blockquote>
+    </div>
+  </div>
+
+  <div class="login-right">
+    <div class="login-card">
+      <!-- HEADER -->
+      <div class="login-header">
+        <h2>Iniciar Sesión</h2>
+
+        @if (loggedIn()) {
+          <p>
+            Bienvenido, <strong>{{ userName() }}</strong>
+          </p>
+        } @else {
+          <p>Accede con tu cuenta institucional</p>
+        }
+      </div>
+
+      <!-- SI YA LOGUEADO -->
+      @if (loggedIn()) {
+        <div class="alert alert-success">
+          ✔ Ya estás autenticado como <b>{{ userName() }}</b>
+        </div>
+
+        <button class="btn-submit" (click)="logout()">CERRAR SESIÓN</button>
+      } @else {
+        <button class="btn-submit" (click)="login()" [disabled]="loading()">
+          @if (loading()) {
+            <span class="spinner-border spinner-border-sm me-2"></span>
+          }
+
+          INGRESAR CON KEYCLOAK
+        </button>
+      }
+
+      <div class="login-footer">
+        <a routerLink="/">← Volver al inicio</a>
+      </div>
+    </div>
+  </div>
+</div>

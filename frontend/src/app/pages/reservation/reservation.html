@@ -1,0 +1,252 @@
+<app-header></app-header>
+<div style="padding-top: 75px">
+  <section
+    style="
+      background: linear-gradient(135deg, #2c1a0e, #5c3317);
+      padding: 80px 20px;
+      text-align: center;
+      color: #fff;
+    "
+  >
+    <span
+      style="
+        display: block;
+        color: #c8a97e;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+      "
+      >Reserva tu lugar</span
+    >
+    <h1 style="font-family: 'Playfair Display', serif; font-size: 48px">RESERVAR MESA</h1>
+  </section>
+  <section style="padding: 80px 20px; background: #fdf6ef">
+    <div class="container" style="max-width: 620px">
+      @if (enviado) {
+        <div style="text-align: center; padding: 60px 20px">
+          <i
+            class="fas fa-check-circle"
+            style="font-size: 70px; color: #c8a97e; display: block; margin-bottom: 20px"
+          ></i>
+          <h3 style="font-family: 'Playfair Display', serif; color: #2c1a0e; margin-bottom: 12px">
+            ¡Reserva confirmada!
+          </h3>
+          <p style="color: #666">
+            Nos pondremos en contacto contigo pronto para confirmar tu reserva.
+          </p>
+        </div>
+      } @else {
+        <div
+          style="
+            background: #fff;
+            padding: 44px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+          "
+        >
+          <h3
+            style="
+              font-family: 'Playfair Display', serif;
+              color: #2c1a0e;
+              margin-bottom: 28px;
+              text-align: center;
+            "
+          >
+            Completa tu reserva
+          </h3>
+          <form (ngSubmit)="submit()" #f="ngForm">
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px"
+            >
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #666;
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                    letter-spacing: 0.5px;
+                  "
+                  >Nombre *</label
+                ><input
+                  [(ngModel)]="form.nombre"
+                  name="nombre"
+                  required
+                  style="
+                    width: 100%;
+                    padding: 12px 14px;
+                    border: 2px solid #e8d9c8;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    outline: none;
+                  "
+                  placeholder="Tu nombre"
+                />
+              </div>
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #666;
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                    letter-spacing: 0.5px;
+                  "
+                  >Email *</label
+                ><input
+                  [(ngModel)]="form.email"
+                  name="email"
+                  type="email"
+                  required
+                  style="
+                    width: 100%;
+                    padding: 12px 14px;
+                    border: 2px solid #e8d9c8;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    outline: none;
+                  "
+                  placeholder="tu&#64;email.com"
+                />
+              </div>
+            </div>
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 16px;
+                margin-bottom: 16px;
+              "
+            >
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #666;
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                    letter-spacing: 0.5px;
+                  "
+                  >Fecha *</label
+                ><input
+                  [(ngModel)]="form.fecha"
+                  name="fecha"
+                  type="date"
+                  required
+                  style="
+                    width: 100%;
+                    padding: 12px 14px;
+                    border: 2px solid #e8d9c8;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    outline: none;
+                  "
+                />
+              </div>
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #666;
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                    letter-spacing: 0.5px;
+                  "
+                  >Hora *</label
+                ><input
+                  [(ngModel)]="form.hora"
+                  name="hora"
+                  type="time"
+                  required
+                  style="
+                    width: 100%;
+                    padding: 12px 14px;
+                    border: 2px solid #e8d9c8;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    outline: none;
+                  "
+                />
+              </div>
+              <div>
+                <label
+                  style="
+                    display: block;
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: #666;
+                    text-transform: uppercase;
+                    margin-bottom: 6px;
+                    letter-spacing: 0.5px;
+                  "
+                  >Personas</label
+                ><input
+                  [(ngModel)]="form.personas"
+                  name="personas"
+                  type="number"
+                  min="1"
+                  max="20"
+                  style="
+                    width: 100%;
+                    padding: 12px 14px;
+                    border: 2px solid #e8d9c8;
+                    border-radius: 8px;
+                    font-size: 14px;
+                    outline: none;
+                  "
+                />
+              </div>
+            </div>
+            <div style="margin-bottom: 24px">
+              <label
+                style="
+                  display: block;
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #666;
+                  text-transform: uppercase;
+                  margin-bottom: 6px;
+                  letter-spacing: 0.5px;
+                "
+                >Comentarios</label
+              ><textarea
+                [(ngModel)]="form.mensaje"
+                name="mensaje"
+                rows="3"
+                style="
+                  width: 100%;
+                  padding: 12px 14px;
+                  border: 2px solid #e8d9c8;
+                  border-radius: 8px;
+                  font-size: 14px;
+                  outline: none;
+                  resize: vertical;
+                "
+                placeholder="Alergias, peticiones especiales..."
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="btn-primary-cafe"
+              style="width: 100%"
+              [disabled]="f.invalid"
+            >
+              CONFIRMAR RESERVA
+            </button>
+          </form>
+        </div>
+      }
+    </div>
+  </section>
+</div>
+<app-footer></app-footer>

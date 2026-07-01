@@ -1,0 +1,341 @@
+/* ==========================================================
+   HEADER MÓVIL
+========================================================== */
+.mobile-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: #2c1a0e;
+  height: 60px;
+
+  .mobile-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 100%;
+  }
+}
+
+/* ==========================================================
+   USUARIO LOGUEADO (Hola, Usuario)
+========================================================== */
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  margin: 15px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+
+  /* Fuerza el color blanco */
+  color: #ffffff !important;
+}
+
+/* Icono */
+.header-user i {
+  font-size: 28px;
+  color: #ffffff !important;
+}
+
+/* Texto */
+.header-user span {
+  color: #ffffff !important;
+  font-size: 15px;
+}
+
+/* Nombre del usuario */
+.header-user strong {
+  color: #ffffff !important;
+  font-weight: bold;
+}
+
+/* Fuerza el color para todos los hijos */
+.header-user,
+.header-user * {
+  color: #ffffff !important;
+}
+
+/* Compatibilidad con Angular */
+:host ::ng-deep .header-user,
+:host ::ng-deep .header-user *,
+:host ::ng-deep .header-user span,
+:host ::ng-deep .header-user strong,
+:host ::ng-deep .header-user i {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* ==========================================================
+   BOTÓN HAMBURGUESA
+========================================================== */
+
+.hamburger-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 4px;
+
+  span {
+    display: block;
+    width: 25px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 2px;
+  }
+}
+
+/* ==========================================================
+   HEADER DESKTOP
+========================================================== */
+
+.desktop-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: rgba(44, 26, 14, 0.97);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+
+  .header-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 30px;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+  }
+}
+
+/* ==========================================================
+   MENÚ DESKTOP
+========================================================== */
+
+.desktop-nav {
+  display: flex;
+  gap: 4px;
+
+  a {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: 4px;
+    transition: color 0.2s;
+
+    &:hover,
+    &.active {
+      color: #c8a97e;
+    }
+  }
+}
+
+/* ==========================================================
+   BOTONES DEL HEADER
+========================================================== */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .action-btn {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 18px;
+    padding: 6px 10px;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #c8a97e;
+    }
+  }
+
+  .btn-sm-cafe {
+    padding: 8px 20px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+}
+
+/* ==========================================================
+   LOGO
+========================================================== */
+
+.logo-text {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+
+  span {
+    color: #c8a97e;
+  }
+}
+
+/* ==========================================================
+   FONDO OSCURO DEL MENÚ LATERAL
+========================================================== */
+
+.sidenav-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+/* ==========================================================
+   MENÚ LATERAL
+========================================================== */
+
+.sidenav {
+  position: fixed;
+  top: 0;
+  left: -290px;
+  width: 280px;
+  height: 100vh;
+  background: #2c1a0e;
+  z-index: 1001;
+  transition: left 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+
+  &.open {
+    left: 0;
+  }
+}
+
+/* ==========================================================
+   BOTÓN CERRAR
+========================================================== */
+
+.close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 20px;
+  padding: 16px 20px;
+  cursor: pointer;
+  align-self: flex-end;
+
+  &:hover {
+    color: #c8a97e;
+  }
+}
+
+/* ==========================================================
+   LOGO DEL SIDENAV
+========================================================== */
+
+.sidenav-logo {
+  text-align: center;
+  padding: 10px 20px 30px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================
+   OPCIONES DEL SIDENAV
+========================================================== */
+
+.sidenav-menu {
+  list-style: none;
+  padding: 20px 0;
+  flex: 1;
+
+  li a {
+    display: block;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    transition: all 0.2s;
+    cursor: pointer;
+
+    &:hover,
+    &.active {
+      color: #c8a97e;
+      padding-left: 36px;
+    }
+  }
+
+  .logout-link {
+    color: rgba(255, 120, 120, 0.8);
+  }
+}
+
+/* ==========================================================
+   PIE DEL SIDENAV
+========================================================== */
+
+.sidenav-footer {
+  padding: 20px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  .social-links {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 14px;
+
+    a {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 16px;
+
+      &:hover {
+        color: #c8a97e;
+      }
+    }
+  }
+
+  .copyright {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 11px;
+  }
+
+  .cart-link {
+    position: relative;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+
+    background: #e53935;
+    color: white;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    width: 18px;
+    height: 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+  }
+}

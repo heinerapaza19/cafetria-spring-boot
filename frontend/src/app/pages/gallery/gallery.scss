@@ -1,0 +1,117 @@
+.gallery-page {
+  background: #fdf6ef;
+}
+
+/* =========================
+   HERO
+========================= */
+.gallery-hero {
+  background: linear-gradient(135deg, #2c1a0e, #5c3317);
+  padding: 100px 20px;
+  text-align: center;
+  color: white;
+
+  span {
+    display: block;
+    color: #c8a97e;
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 54px;
+    margin: 10px 0;
+    font-family: 'Playfair Display', serif;
+  }
+
+  p {
+    color: #ddd;
+  }
+}
+
+/* =========================
+   GRID SPACE FIX (IMPORTANTE)
+========================= */
+.gallery-content {
+  padding: 70px 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px; /* 🔥 separa las cards */
+}
+
+.col-sm-6,
+.col-md-4 {
+  flex: 1 1 calc(33.333% - 22px);
+  min-width: 260px;
+}
+
+/* =========================
+   CARD (MEJORADO)
+========================= */
+.gallery-card {
+  position: relative;
+  height: 260px;
+  border-radius: 18px;
+  overflow: hidden;
+  cursor: pointer;
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  transition: all 0.4s ease;
+
+  /* 🔥 efecto suave */
+  transform: translateY(0);
+
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.1);
+  }
+
+  /* =========================
+     OVERLAY BONITO
+  ========================= */
+  .overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 14px;
+
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
+
+    color: white;
+
+    opacity: 0;
+    transform: translateY(10px);
+    transition: 0.4s ease;
+
+    h5 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    p {
+      margin: 0;
+      font-size: 12px;
+      color: #ddd;
+    }
+  }
+
+  &:hover .overlay {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

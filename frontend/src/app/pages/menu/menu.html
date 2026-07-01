@@ -1,0 +1,144 @@
+<app-header></app-header>
+
+<div class="page-wrapper">
+  <!-- ==========================================================
+       PAGE BANNER
+  ========================================================== -->
+  <section class="page-banner">
+    <div class="banner-content">
+      <span class="label-tag">Lo mejor de nuestra cocina</span>
+      <h1>NUESTRO MENÚ</h1>
+      <p>Descubre nuestras especialidades preparadas con los mejores ingredientes</p>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       FILTROS DE CATEGORÍA
+  ========================================================== -->
+  <section class="menu-filter-section">
+    <div class="container">
+      <div class="filter-tabs">
+        <!-- Botón para mostrar todos los productos -->
+        <button
+          type="button"
+          class="filter-tab"
+          [class.active]="categoriaActiva() === null"
+          (click)="filtrarPorCategoria(null)"
+        >
+          TODOS
+        </button>
+
+        <!-- Botones dinámicos de categorías -->
+        @for (cat of categorias(); track cat.id) {
+          <button
+            type="button"
+            class="filter-tab"
+            [class.active]="categoriaActiva() === cat.id"
+            (click)="filtrarPorCategoria(cat.id)"
+          >
+            {{ cat.nombre | uppercase }}
+          </button>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================
+       PRODUCTOS DEL MENÚ
+  ========================================================== -->
+  <section class="menu-products">
+    <div class="container">
+      <!-- Cargando productos -->
+      @if (loading()) {
+        <div class="cafe-spinner">
+          <div class="spinner-border"></div>
+        </div>
+      }
+
+      <!-- Error real del backend, Keycloak o CORS -->
+      @else if (errorCarga()) {
+        <div class="empty-state">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>{{ errorCarga() }}</p>
+        </div>
+      }
+
+      <!-- Cuando no hay productos filtrados -->
+      @else if (productosFiltrados().length === 0) {
+        <div class="empty-state">
+          <i class="fas fa-coffee"></i>
+          <p>No hay productos en esta categoría.</p>
+        </div>
+      }
+
+      <!-- Lista de productos -->
+      @else {
+        <div class="row g-4">
+          @for (p of productosFiltrados(); track p.id) {
+            <div class="col-sm-6 col-md-4 col-lg-3">
+              <div class="product-card">
+                <!-- Imagen del producto -->
+                @if (p.imagen) {
+                  <img [src]="getImgUrl(p.imagen)" [alt]="p.nombre" class="product-img" />
+                } @else {
+                  <div class="product-img-placeholder">
+                    <i class="fas fa-coffee"></i>
+                  </div>
+                }
+
+                <!-- Información del producto -->
+                <div class="product-body">
+                  <h5 class="product-name">{{ p.nombre }}</h5>
+
+                  <p class="product-desc">
+                    {{ p.descripcion || 'Especialidad de nuestra cafetería.' }}
+                  </p>
+
+                  <div class="product-footer">
+                    <span class="price"> S/ {{ p.precio | number: '1.2-2' }} </span>
+
+                    <!-- Botón agregar al carrito -->
+                    <button
+                      type="button"
+                      class="btn-add"
+                      (click)="agregarAlCarrito(p)"
+                      [disabled]="addingId() === p.id || p.stock === 0"
+                    >
+                      @if (addingId() === p.id) {
+                        <span class="spinner-border spinner-border-sm"></span>
+                      } @else {
+                        <i [class]="p.stock === 0 ? 'fas fa-ban' : 'fas fa-cart-plus'"></i>
+                      }
+                    </button>
+                  </div>
+
+                  <!-- Estado del stock -->
+                  @if (p.stock === 0) {
+                    <span class="badge-stock no-stock mt-2 d-inline-block"> Agotado </span>
+                  } @else if (p.stock <= 5) {
+                    <span class="badge-stock low-stock mt-2 d-inline-block">
+                      Últimas {{ p.stock }}
+                    </span>
+                  } @else {
+                    <span class="badge-stock in-stock mt-2 d-inline-block"> Disponible </span>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </section>
+</div>
+
+<!-- ==========================================================
+     TOAST / MENSAJE
+========================================================== -->
+@if (mensaje()) {
+  <div class="toast-message">
+    {{ mensaje() }}
+  </div>
+}
+
+<app-footer></app-footer>

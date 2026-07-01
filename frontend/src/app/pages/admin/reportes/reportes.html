@@ -1,0 +1,116 @@
+<div class="reportes-container">
+  <!-- HEADER -->
+  <div class="header">
+    <h2>📊 Reportes del Negocio</h2>
+    <p>Análisis tipo Power BI</p>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="filters">
+    <select [(ngModel)]="filtro().anio" (change)="cambiarFiltro()">
+      <option [value]="2024">2024</option>
+      <option [value]="2025">2025</option>
+      <option [value]="2026">2026</option>
+    </select>
+
+    <select [(ngModel)]="filtro().mes" (change)="cambiarFiltro()">
+      <option value="ALL">Todos los meses</option>
+      <option value="1">Enero</option>
+      <option value="2">Febrero</option>
+      <option value="3">Marzo</option>
+      <option value="4">Abril</option>
+      <option value="5">Mayo</option>
+      <option value="6">Junio</option>
+      <option value="7">Julio</option>
+      <option value="8">Agosto</option>
+      <option value="9">Septiembre</option>
+      <option value="10">Octubre</option>
+      <option value="11">Noviembre</option>
+      <option value="12">Diciembre</option>
+    </select>
+  </div>
+
+  <!-- LOADING -->
+  @if (loading()) {
+    <div class="loading">Cargando reportes...</div>
+  }
+
+  @if (!loading() && dashboard()) {
+    <!-- KPI CARDS -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <span class="kpi-icon">💵</span>
+        <h4>Ventas Hoy</h4>
+        <h2>S/ {{ dashboard()?.ventasHoy ?? 0 }}</h2>
+      </div>
+
+      <div class="kpi-card green">
+        <span class="kpi-icon">📦</span>
+        <h4>Pedidos Hoy</h4>
+        <h2>{{ dashboard()?.pedidosHoy ?? 0 }}</h2>
+      </div>
+
+      <div class="kpi-card orange">
+        <span class="kpi-icon">🥇</span>
+        <h4>Más vendido</h4>
+        <h2>{{ dashboard()?.productoMasVendido ?? '-' }}</h2>
+      </div>
+
+      <div class="kpi-card purple">
+        <span class="kpi-icon">📉</span>
+        <h4>Menos vendido</h4>
+        <h2>{{ dashboard()?.productoMenosVendido ?? '-' }}</h2>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="charts">
+      <!-- VENTAS -->
+      <div class="chart-card">
+        <h3>📈 Ventas (Hoy / Semana / Mes / Año)</h3>
+
+        <apx-chart
+          [series]="ventasChart().series!"
+          [chart]="ventasChart().chart!"
+          [xaxis]="ventasChart().xaxis!"
+          [stroke]="ventasChart().stroke!"
+          [fill]="ventasChart().fill!"
+          [colors]="ventasChart().colors!"
+          [dataLabels]="ventasChart().dataLabels!"
+          [grid]="ventasChart().grid!"
+          [tooltip]="ventasChart().tooltip!"
+        ></apx-chart>
+      </div>
+
+      <!-- PAGOS -->
+      <div class="chart-card">
+        <h3>💳 Métodos de Pago</h3>
+
+        <apx-chart
+          [series]="pagosChart().series!"
+          [chart]="pagosChart().chart!"
+          [labels]="pagosChart().labels!"
+          [colors]="pagosChart().colors!"
+          [legend]="pagosChart().legend!"
+          [dataLabels]="pagosChart().dataLabels!"
+          [plotOptions]="pagosChart().plotOptions!"
+        ></apx-chart>
+      </div>
+    </div>
+
+    <!-- TOP PRODUCTOS -->
+    <div class="chart-card full">
+      <h3>🔥 Top Productos</h3>
+
+      <apx-chart
+        [series]="topChart().series!"
+        [chart]="topChart().chart!"
+        [xaxis]="topChart().xaxis!"
+        [colors]="topChart().colors!"
+        [plotOptions]="topChart().plotOptions!"
+        [dataLabels]="topChart().dataLabels!"
+        [grid]="topChart().grid!"
+      ></apx-chart>
+    </div>
+  }
+</div>

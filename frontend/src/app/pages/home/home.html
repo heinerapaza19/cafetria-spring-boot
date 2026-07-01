@@ -1,0 +1,164 @@
+<app-header></app-header>
+
+<!-- ================= HERO SLIDER ================= -->
+<section class="hero-slider">
+  @for (slide of slides; track $index) {
+    <div class="slide" [class.active]="activeSlide() === $index" [style.background]="slide.bg">
+      <div class="slide-content">
+        <span class="slide-tag">{{ slide.tag }}</span>
+
+        <h1 class="slide-title">{{ slide.title }}</h1>
+
+        <h4 class="slide-sub">{{ slide.sub }}</h4>
+
+        <!-- BOTONES DEL SLIDER -->
+        <div class="slide-actions">
+          @for (btn of slide.buttons; track btn.text) {
+            <a [routerLink]="btn.link" class="btn-slider" [ngClass]="btn.type">
+              @if (btn.icon) {
+                <i class="fas" [ngClass]="btn.icon"></i>
+              }
+
+              <span>{{ btn.text }}</span>
+            </a>
+          }
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- DOTS DEL SLIDER -->
+  <div class="slider-dots">
+    @for (slide of slides; track $index) {
+      <button
+        type="button"
+        class="dot"
+        [class.active]="activeSlide() === $index"
+        (click)="setSlide($index)"
+      ></button>
+    }
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="about-strip bg-light-cafe">
+  <div class="container">
+    <div class="section-head">
+      <span class="label-tag">Bienvenido</span>
+      <h2 class="main-title">SOBRE NOSOTROS</h2>
+      <div class="separator"></div>
+
+      <p class="sub-title">
+        Somos una cafetería con pasión por el café de especialidad. Cada taza es preparada con amor
+        y los mejores granos seleccionados.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section
+  class="features-section"
+  style="background: linear-gradient(135deg, #2c1a0e, #5c3317); padding: 70px 0"
+>
+  <div class="container text-center text-white">
+    <h3 class="main-title">¿SABÍAS QUE?</h3>
+    <h4 class="sub-title" style="opacity: 0.7">SOBRE NUESTRO RESTAURANTE</h4>
+
+    <div class="row g-4 mt-4">
+      <div class="col-6 col-md-3">
+        <div class="feature-box">
+          <i class="fas fa-coffee"></i>
+          <h5>CAFÉ ESPECIALIDAD</h5>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="feature-box">
+          <i class="fas fa-phone"></i>
+          <h5>RESERVAS FÁCILES</h5>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="feature-box">
+          <i class="fas fa-clock"></i>
+          <h5>08:00 - 22:00</h5>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-3">
+        <div class="feature-box">
+          <i class="fas fa-map-marker-alt"></i>
+          <h5>CENTRO DE LA CIUDAD</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOAST ================= -->
+@if (mensaje()) {
+  <div class="toast-message">
+    {{ mensaje() }}
+  </div>
+}
+
+<!-- ================= MENÚ ================= -->
+<section class="menu-preview">
+  <div class="container">
+    <div class="section-head">
+      <span class="label-tag">Lo mejor de hoy</span>
+      <h2 class="main-title">NUESTRO MENÚ</h2>
+      <div class="separator"></div>
+    </div>
+
+    @if (loading()) {
+      <div class="cafe-spinner">
+        <div class="spinner-border"></div>
+      </div>
+    } @else if (productos().length === 0) {
+      <p class="text-center">No hay productos disponibles</p>
+    } @else {
+      <div class="row g-4">
+        @for (p of productos(); track p.id) {
+          <div class="col-sm-6 col-md-4">
+            <div class="product-card">
+              <img [src]="getImgUrl(p.imagen)" class="product-img" [alt]="p.nombre" />
+
+              <div class="product-body">
+                <h5>{{ p.nombre }}</h5>
+
+                <p>{{ p.descripcion }}</p>
+
+                <div class="product-footer">
+                  <span class="price">S/ {{ p.precio }}</span>
+
+                  <button type="button" class="btn-primary-cafe" (click)="agregarAlCarrito(p)">
+                    Añadir
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="text-center mt-5">
+        <a routerLink="/our-menu" class="btn-primary-cafe"> VER MENÚ COMPLETO </a>
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta-section">
+  <div class="cta-content">
+    <h2>¿Listo para visitarnos?</h2>
+    <p>Reserva tu mesa y disfruta de la experiencia</p>
+
+    <a routerLink="/reservation" class="btn-primary-cafe"> RESERVAR AHORA </a>
+  </div>
+</section>
+
+<app-footer></app-footer>

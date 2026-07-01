@@ -1,0 +1,297 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+:root {
+  --primary: #c8a97e;
+  --primary-dark: #a07850;
+  --secondary: #2c1a0e;
+  --accent: #f5e6d3;
+  --text-dark: #1a1a1a;
+  --text-light: #6c6c6c;
+  --white: #ffffff;
+  --bg-light: #fdf6ef;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  background: var(--white);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Playfair Display', serif;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* ===== BOTONES ===== */
+.btn-primary-cafe {
+  background: var(--primary);
+  color: var(--white);
+  border: 2px solid var(--primary);
+  padding: 12px 32px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-block;
+  &:hover {
+    background: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: var(--white);
+  }
+}
+
+.btn-outline-cafe {
+  background: transparent;
+  color: var(--white);
+  border: 2px solid var(--white);
+  padding: 12px 32px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-block;
+  &:hover {
+    background: var(--white);
+    color: var(--secondary);
+  }
+}
+
+/* ===== SECCIONES ===== */
+.section-full { width: 100%; }
+
+.section-head {
+  text-align: center;
+  margin-bottom: 50px;
+
+  .label-tag {
+    color: var(--primary);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .main-title {
+    font-size: 42px;
+    color: var(--secondary);
+    margin-bottom: 15px;
+  }
+
+  .sub-title {
+    font-size: 16px;
+    color: var(--text-light);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .separator {
+    width: 60px;
+    height: 3px;
+    background: var(--primary);
+    margin: 20px auto;
+  }
+}
+
+.bg-light-cafe { background: var(--bg-light); }
+.bg-dark-cafe  { background: var(--secondary); }
+
+/* ===== TARJETAS PRODUCTO ===== */
+.product-card {
+  background: var(--white);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+  }
+
+  .product-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .product-img-placeholder {
+    width: 100%;
+    height: 220px;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    color: var(--white);
+  }
+
+  .product-body {
+    padding: 20px;
+
+    .product-name {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    .product-desc {
+      font-size: 13px;
+      color: var(--text-light);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .price {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--primary);
+        font-family: 'Playfair Display', serif;
+      }
+    }
+  }
+}
+
+/* ===== BADGE STOCK ===== */
+.badge-stock {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  &.in-stock  { background: #d4edda; color: #155724; }
+  &.low-stock { background: #fff3cd; color: #856404; }
+  &.no-stock  { background: #f8d7da; color: #721c24; }
+}
+
+/* ===== OVERLAY DARK ===== */
+.overlay-dark {
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    z-index: 1;
+  }
+  > * { position: relative; z-index: 2; }
+}
+
+/* ===== SPINNER ===== */
+.cafe-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: var(--primary);
+  }
+}
+
+/* ===== ADMIN LAYOUT ===== */
+.admin-layout {
+  display: flex;
+  min-height: 100vh;
+
+  .admin-sidebar {
+    width: 260px;
+    background: var(--secondary);
+    flex-shrink: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+  }
+
+  .admin-content {
+    margin-left: 260px;
+    flex: 1;
+    background: #f8f9fa;
+    min-height: 100vh;
+    padding: 30px;
+  }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* ===== ALERTS ===== */
+.alert-cafe {
+  border-radius: 8px;
+  border: none;
+  padding: 14px 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* ===== TABLA ADMIN ===== */
+.table-cafe {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.06);
+
+  thead {
+    background: var(--secondary);
+    color: white;
+    th { padding: 15px 20px; font-weight: 500; font-size: 13px; letter-spacing: 0.5px; }
+  }
+
+  tbody tr {
+    transition: background 0.2s;
+    td { padding: 14px 20px; vertical-align: middle; }
+    &:hover { background: var(--bg-light); }
+  }
+}
+
+/* ===== CARD STAT ADMIN ===== */
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border-left: 5px solid var(--primary);
+
+  .stat-number {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--secondary);
+    font-family: 'Playfair Display', serif;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .stat-icon {
+    font-size: 32px;
+    color: var(--primary);
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,58 @@
+<aside class="admin-sidebar-inner">
+  <div class="sidebar-brand">
+    <a routerLink="/">Cafe<span>Zone</span></a>
+    <small>Panel Administrador</small>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-group">
+      <span class="nav-label">Principal</span>
+      <a routerLink="/admin/dashboard" routerLinkActive="active">
+        <i class="fas fa-tachometer-alt"></i> Inicio
+      </a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-label">Catálogo</span>
+      <a routerLink="/admin/categorias" routerLinkActive="active">
+        <i class="fas fa-tags"></i> Categorías
+      </a>
+      <a routerLink="/admin/productos" routerLinkActive="active">
+        <i class="fas fa-coffee"></i> Productos
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-label">Operaciones</span>
+      <a routerLink="/admin/pedidos" routerLinkActive="active">
+        <i class="fas fa-clipboard-list"></i> Pedidos
+      </a>
+    </div>
+    <div class="nav-group">
+      <span class="nav-label">Detalles </span>
+      <a routerLink="/admin/reportes">
+        <i class="fas fa-chart-bar"></i>
+        Reportes
+      </a>
+    </div>
+
+    <div class="nav-group">
+      <span class="nav-label">Sitio</span>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="fas fa-home"></i> Ver Sitio
+      </a>
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <i class="fas fa-user-circle"></i>
+      <div>
+        <strong>{{ auth.currentUser()?.username }}</strong>
+        <small>Administrador del sistema</small>
+      </div>
+    </div>
+    <button class="logout-btn" (click)="auth.logout()">
+      <i class="fas fa-sign-out-alt"></i> Salir
+    </button>
+  </div>
+</aside>

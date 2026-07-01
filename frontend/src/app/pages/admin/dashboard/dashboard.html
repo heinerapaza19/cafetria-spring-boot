@@ -1,0 +1,105 @@
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <app-admin-sidebar></app-admin-sidebar>
+  </div>
+
+  <main class="admin-content">
+    <div class="admin-topbar">
+      <h2>Panel de Control</h2>
+      <p class="text-muted">Resumen general del negocio</p>
+    </div>
+
+    @if (loading()) {
+      <div class="cafe-spinner">
+        <div class="spinner-border"></div>
+      </div>
+    } @else if (data()) {
+      <!-- KPI -->
+      <div class="row g-4 mb-4">
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <p class="stat-label">Ventas Hoy</p>
+            <h3 class="stat-number">S/ {{ data()?.ventasHoy ?? 0 | number: '1.2-2' }}</h3>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <p class="stat-label">Pedidos Hoy</p>
+            <h3 class="stat-number">
+              {{ data()?.pedidosHoy ?? 0 }}
+            </h3>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <p class="stat-label">Ventas Semana</p>
+            <h3 class="stat-number">S/ {{ data()?.ventasSemana ?? 0 | number: '1.2-2' }}</h3>
+          </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <p class="stat-label">Ventas Mes</p>
+            <h3 class="stat-number">S/ {{ data()?.ventasMes ?? 0 | number: '1.2-2' }}</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="info-card">
+            <h5>🔥 Producto Más Vendido</h5>
+            <p>{{ data()?.productoMasVendido ?? 'Sin datos' }}</p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="info-card">
+            <h5>💳 Método de Pago Frecuente</h5>
+            <p>
+              {{ (data()?.pagosEfectivo ?? 0) >= (data()?.pagosYape ?? 0) ? 'EFECTIVO' : 'YAPE' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- ACCESOS RÁPIDOS (siempre visibles) -->
+    <div class="quick-links mt-4">
+      <h5 class="mb-3">Accesos Rápidos</h5>
+
+      <div class="row g-3">
+        <div class="col-sm-4">
+          <a routerLink="/admin/productos" class="quick-card">
+            <i class="fas fa-coffee"></i>
+            <span>Gestionar Productos</span>
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          <a routerLink="/admin/categorias" class="quick-card">
+            <i class="fas fa-tags"></i>
+            <span>Gestionar Categorías</span>
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          <a routerLink="/admin/pedidos" class="quick-card">
+            <i class="fas fa-clipboard-list"></i>
+            <span>Ver Pedidos</span>
+          </a>
+        </div>
+
+        <div class="col-sm-4">
+          <a routerLink="/admin/pagos" class="quick-card caja-card">
+            <i class="fas fa-cash-register"></i>
+            <span>CAJA - Validar Pagos</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
